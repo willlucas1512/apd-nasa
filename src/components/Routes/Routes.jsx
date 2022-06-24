@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter, Switch, Route, Redirect } from "react-router-dom";
 import { Detail, List } from "../../pages";
 
-function Routes(props) {
+function Routes() {
   return (
     <Switch>
       <Route exact path="/list" component={List} />
