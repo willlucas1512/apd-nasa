@@ -5,7 +5,7 @@ import earth from "./earth.gif";
 import { formatDate } from "../../utils/date";
 
 function List() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
@@ -81,24 +81,6 @@ function List() {
   }, [data]);
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await fetch(process.env.REACT_APP_API_URL);
-        if (!response.ok) {
-          throw new Error(
-            `This is an HTTP error: The status is ${response.status}`
-          );
-        }
-        let actualData = await response.json();
-        setData(actualData);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-        setData({});
-      } finally {
-        setLoading(false);
-      }
-    };
     getData();
   }, []);
 
@@ -132,19 +114,26 @@ function List() {
         <div className={styles.container}>
           <div className={styles.inputs}>
             <div className={styles.searchBox}>
+              <div className={styles.icon}>
+                <span className={"material-icons md-18"}>search</span>
+              </div>
               <input
+                name="nome"
+                onChange={handleNameSearch}
                 className={styles.searchInput}
                 type="text"
                 placeholder="Search by name or select a date"
               />
             </div>
-            <input className={styles.dateSelector} type="date" />
-            <button className={styles.searchBtn}>
-              <span className="material-icons md-18">search</span>
-            </button>
+            <input
+              onChange={handleDateSearch}
+              name="data"
+              className={styles.dateSelector}
+              type="date"
+            />
           </div>
           <div className={styles.list}>
-            {Object.values(data).map((pItem, pIndex) => {
+            {data.map((pItem, pIndex) => {
               return (
                 <Link
                   style={{ height: "100%" }}
