@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/date";
+import { formatDate, isBefore } from "../utils/date";
 import { handleNameSearch } from "../utils/search";
 
 // Teste da função utilitária de formatação de data de YYYY-MM-DD para YYYY Month DD
@@ -207,5 +207,15 @@ describe("Fetch API by date", () => {
       url: "https://apod.nasa.gov/apod/image/2206/AR3038_Filaprom_HA_DS_150mmF20_IMX174_Color_06222022_1024.jpg",
     });
     expect(rResponse.status).toBe(200);
+  });
+});
+
+// Teste da função utilitária que testa se uma data é anterior à outra
+describe("Utility function", function () {
+  describe("isBefore()", function () {
+    it("Should return true or false if date1 is before than date2", () => {
+      const xIsBefore = isBefore("2022-06-24", "2022-12-25");
+      expect(xIsBefore).toBe(true);
+    });
   });
 });
