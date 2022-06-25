@@ -15,10 +15,16 @@
   text-align: center;
   margin: 0;
   font-family: Montserrat;
+  font-weight: 300;
   z-index: 9999;
 }
 
 .text {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.date {
   text-align: center;
   margin-top: 12px;
 }
@@ -26,13 +32,12 @@
 .textExplanation {
   text-align: justify;
   margin-top: 12px;
-  height: 100%;
 }
 
 .container {
-  margin: 24px;
+  height: calc(100vh - 107px - 24px - 24px);
+  overflow-y: scroll;
   position: relative;
-  height: calc(100vh - 20%);
 }
 
 .item {
@@ -45,9 +50,13 @@
   transition: 1s ease all;
   box-sizing: border-box;
   box-shadow: 2px 2px 4px 0 #ccc;
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin: 24px;
+}
+
+.item::-webkit-scrollbar {
+  display: none;
 }
 
 .item img {
@@ -57,14 +66,61 @@
 
 .imgContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
 }
 
-.imgContainer img {
-  transition: transform 0.3s;
+.label {
+  margin-top: 3px;
+  font-size: xx-small;
+  color: #ccc;
+  justify-self: center;
 }
 
-.imgContainer img:active {
-  transform: scale(1.5);
+@media only screen and (max-width: 335px) {
+  .container {
+    margin-right: -1px;
+  }
+}
+
+@media only screen and (min-width: 336px) and (max-width: 1024px) {
+  .imgContainer {
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 336px) and (max-width: 1439px) {
+  .img {
+    max-height: 50vh;
+  }
+  .container {
+    margin-right: -1px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .item {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+  }
+  .imgContainer {
+    margin: 0;
+    display: grid;
+    grid-template-rows: 99%;
+    align-items: unset;
+  }
+  .texts {
+    flex-direction: column;
+    width: 30vw;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    margin-right: -24px;
+  }
+  .textExplanation {
+    margin: 12px 0 0 24px;
+  }
 }
