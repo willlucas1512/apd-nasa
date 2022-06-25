@@ -1,0 +1,15 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.message {
+  z-index: 9999;
+  background-color: white;
+  padding: 16px;
+  position: absolute;
+  border-radius: 12px;
+}

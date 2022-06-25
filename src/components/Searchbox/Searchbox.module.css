@@ -1,0 +1,60 @@
+.searchBox {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.searchInput {
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  padding: 8px 40px;
+  margin-right: 8px;
+  background-color: #eaeaeb;
+  color: #6c6c6c;
+  border-radius: 6px;
+  border: none;
+  transition: all 0.4s;
+}
+
+.searchInput:focus {
+  outline: none;
+}
+
+.searchBtn {
+  background-color: #eaeaeb;
+  font-size: 12px;
+  padding-top: 5px;
+  border: none;
+  color: #6c6c6c;
+  transition: all 0.4s;
+  z-index: 10;
+  border-radius: 6px;
+}
+.searchBtn:active {
+  transform: scale(0.98);
+  background-color: #6c6c6c;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+}
+
+.dateSelector {
+  font-family: Montserrat;
+  background-color: #eaeaeb;
+  color: #6c6c6c;
+  padding: 8px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.icon {
+  position: absolute;
+  margin: 4px 0 0 6px;
+  color: #6c6c6c;
+}

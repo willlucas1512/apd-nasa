@@ -1,0 +1,19 @@
+.item {
+  display: inline-block;
+  background: #fff;
+  padding: 1em;
+  margin: 0 0 1.5em;
+  width: 100%;
+  transition: 1s ease all;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 4px 0 #ccc;
+}
+
+.item img {
+  max-width: 100%;
+}
+
+.text {
+  text-align: center;
+  margin-top: 8px;
+}
