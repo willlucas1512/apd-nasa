@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { formatDate } from "../../utils/date";
 import ErrorFeedback from "../../components/ErrorFeedback";
 import styles from "./Detail.module.css";

@@ -25,3 +25,7 @@ export function formatDate(pDate) {
   ];
   return `${year} ${months[month]} ${day}`;
 }
+
+export function isBefore(pDate1, pDate2) {
+  return pDate1 < pDate2;
+}
