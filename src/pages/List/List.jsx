@@ -42,11 +42,12 @@ function List() {
     const xStart = new Date("1995-06-16");
     const xSearchDate = new Date(xValue);
     const xToday = new Date();
-    if (!isBefore(xStart, xSearchDate)) {
+    const xIsStartDay = xStart.toDateString() === xSearchDate.toDateString();
+    if (!isBefore(xStart, xSearchDate) && !xIsStartDay) {
       setError(
         "The Astronomy Picture of the Day started in June 16, 1995. Choose a later date."
       );
-    } else if (!isBefore(xValue, xToday)) {
+    } else if (!isBefore(xSearchDate, xToday)) {
       setError(
         "You cannot choose a date in the future. Choose an earlier date."
       );
