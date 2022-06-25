@@ -1,3 +1,9 @@
+.root {
+  position: relative;
+  z-index: 9999;
+  height: 100%;
+}
+
 .container {
   height: 100%;
   display: flex;
@@ -6,10 +12,22 @@
   flex-direction: column;
 }
 
-.message {
-  z-index: 9999;
+.modal {
   background-color: white;
   padding: 16px;
-  position: absolute;
   border-radius: 12px;
+}
+
+.message {
+  z-index: 9999;
+  position: relative;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+  color: rgba(255, 0, 0, 0.732);
+  transition: transform 1s ease-in-out 1s;
+  transform: scale(1.5);
 }

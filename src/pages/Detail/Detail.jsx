@@ -4,6 +4,7 @@ import { formatDate } from "../../utils/date";
 import ErrorFeedback from "../../components/ErrorFeedback";
 import styles from "./Detail.module.css";
 import PropTypes from "prop-types";
+import BackButton from "../../components/BackButton/BackButton";
 
 function Detail(props) {
   if (props.location?.state) {
@@ -12,11 +13,7 @@ function Detail(props) {
     return (
       <>
         <div className={styles.titleDiv}>
-          <Link to="/list">
-            <div className={styles.icon}>
-              <span className={"material-icons"}>arrow_back</span>
-            </div>
-          </Link>
+          <BackButton />
           <h2 className={styles.title}>Astronomy Picture of the Day</h2>
         </div>
         <div className={styles.container}>

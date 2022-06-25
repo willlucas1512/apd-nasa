@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import Searchbox from "../../components/Searchbox";
 import ErrorFeedback from "../../components/ErrorFeedback";
 import { handleNameSearch } from "../../utils/search";
+import { isBefore } from "../../utils/date";
 import styles from "./List.module.css";
 
 function List() {
@@ -38,7 +39,21 @@ function List() {
    */
   const handleDateSearch = (pEvent) => {
     const xValue = pEvent.target.value;
-    getData({ date: xValue });
+    const xStart = new Date("1995-06-16");
+    const xSearchDate = new Date(xValue);
+    const xToday = new Date();
+    if (!isBefore(xStart, xSearchDate)) {
+      setError(
+        "The Astronomy Picture of the Day started in June 16, 1995. Choose a later date."
+      );
+    } else if (!isBefore(xValue, xToday)) {
+      setError(
+        "You cannot choose a date in the future. Choose an earlier date."
+      );
+    } else {
+      getData({ date: xValue });
+    }
+
     setShowSeeMore(xValue.length > 0 ? false : true);
   };
 
