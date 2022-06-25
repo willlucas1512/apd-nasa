@@ -1,3 +1,9 @@
+/**
+ * Formata data YYYY-MM-DD para YYYY Month DD
+ *
+ * @param {String} pDate Data no formato YYYY-MM-DD
+ * @returns {String} Data no formato YYYY Month DD
+ */
 export function formatDate(pDate) {
   const xDate = new Date(pDate);
   const month = xDate.getMonth();
@@ -17,5 +23,5 @@ export function formatDate(pDate) {
     "November",
     "December",
   ];
-  return ` ${year} ${months[month]} ${day} `;
+  return `${year} ${months[month]} ${day}`;
 }

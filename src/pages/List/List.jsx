@@ -1,62 +1,62 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import ListItem from "../../components/ListItem";
+import Loading from "../../components/Loading";
+import Searchbox from "../../components/Searchbox";
+import ErrorFeedback from "../../components/ErrorFeedback";
+import { handleNameSearch } from "../../utils/search";
 import styles from "./List.module.css";
-import earth from "./earth.gif";
-import { formatDate } from "../../utils/date";
 
 function List() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
+  const [showSeeMore, setShowSeeMore] = useState(false);
 
   const dataRef = useRef([]);
   const requestSize = useRef(12);
 
-  const handleNameSearch = (pEvent) => {
+  /**
+   * Chama a pesquisa por nome
+   *
+   * @param pEvent evento do onChange
+   */
+  const handleChangeName = (pEvent) => {
     const xValue = pEvent.target.value.replace(/\s/g, "").toLowerCase();
     if (Object.keys(xValue).length === 0) {
       setSearchResult([]);
       return;
     }
-    const xDataToCompare = data.map(({ title }) =>
-      title.replace(/\s/g, "").toLowerCase()
-    );
-    const xResult = xDataToCompare.filter((pElement) =>
-      pElement.includes(xValue)
-    );
-
-    let xSearchResult = [];
-
-    if (xResult.length > 0) {
-      xResult.forEach((pItem) =>
-        xSearchResult.push(data[xDataToCompare.indexOf(pItem)])
-      );
-    }
-
-    setSearchResult(xSearchResult);
+    setSearchResult(handleNameSearch(xValue, data));
   };
 
+  /**
+   * Pesquisa por data, chamando a API
+   *
+   * @param pEvent evento do onChange
+   *
+   */
   const handleDateSearch = (pEvent) => {
     const xValue = pEvent.target.value;
     getData({ date: xValue });
+    setShowSeeMore(xValue.length > 0 ? false : true);
   };
 
-  const getData = async (pParams) => {
+  /**
+   * Fetch da API
+   *
+   * @param {Object} pParams Objeto com possíveis atributos: date (YYYY-MM-DD), append (bool)
+   */
+  const getData = async (pParams = {}) => {
     try {
       const xHasDate = pParams?.date;
       const xParams = xHasDate
         ? `&date=${pParams?.date}`
         : `&count=${requestSize.current}`;
       const rResponse = await fetch(process.env.REACT_APP_API_URL + xParams);
-      if (!rResponse.ok) {
-        throw new Error(
-          `This is an HTTP error: The status is ${rResponse.status}`
-        );
-      }
       let xJsonData = await rResponse.json();
       const xData = xHasDate ? [xJsonData] : xJsonData;
-      setData(xData);
+      pParams?.append ? setData([...data, ...xData]) : setData(xData);
       setError(null);
     } catch (rErr) {
       setError(rErr.message);
@@ -66,95 +66,72 @@ function List() {
     }
   };
 
+  /**
+   * Fetch da API para paginação
+   */
+  const handleSeeMore = () => {
+    getData({ append: true });
+  };
+
   useEffect(() => {
+    // Altera a lista exibida na tela para o resultado da pesquisa
     if (searchResult.length > 0) {
       setData(searchResult);
+      setShowSeeMore(false);
     } else {
+      setShowSeeMore(true);
       setData(dataRef.current);
     }
   }, [searchResult]);
 
   useEffect(() => {
+    console.log(data);
+    // Armazena os dados originais para exibir após a limpeza da pesquisa
     if (data.length === requestSize.current) {
       dataRef.current = data;
     }
   }, [data]);
 
   useEffect(() => {
+    // Fetch da API na montagem
     getData();
   }, []);
 
-  return (
-    <>
-      <div className={styles.titleDiv}>
-        <h2 className={styles.title}>Astronomy Picture of the Day</h2>
-      </div>
-      {loading ? (
-        <div className={styles.centralized}>
-          <img
-            className={styles.earth}
-            height={"200px"}
-            width={"200px"}
-            src={earth}
-          />
-          <div className={styles.loading}>
-            <span className={styles.letter}>L</span>
-            <span className={styles.letter}>O</span>
-            <span className={styles.letter}>A</span>
-            <span className={styles.letter}>D</span>
-            <span className={styles.letter}>I</span>
-            <span className={styles.letter}>N</span>
-            <span className={styles.letter}>G</span>
-            <span className={styles.letter}>.</span>
-            <span className={styles.letter}>.</span>
-            <span className={styles.letter}>.</span>
-          </div>
+  if (error) {
+    return <ErrorFeedback message={error} />;
+  } else {
+    return (
+      <>
+        <div className={styles.titleDiv}>
+          <h2 className={styles.title}>Astronomy Picture of the Day</h2>
         </div>
-      ) : (
-        <div className={styles.container}>
-          <div className={styles.inputs}>
-            <div className={styles.searchBox}>
-              <div className={styles.icon}>
-                <span className={"material-icons md-18"}>search</span>
-              </div>
-              <input
-                name="nome"
-                onChange={handleNameSearch}
-                className={styles.searchInput}
-                type="text"
-                placeholder="Search by name or select a date"
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <div className={styles.container}>
+              <Searchbox
+                handleDateSearch={handleDateSearch}
+                handleNameSearch={handleChangeName}
               />
-            </div>
-            <input
-              onChange={handleDateSearch}
-              name="data"
-              className={styles.dateSelector}
-              type="date"
-            />
-          </div>
-          <div className={styles.list}>
-            {data.map((pItem, pIndex) => {
-              return (
-                <Link
-                  style={{ height: "100%" }}
-                  key={pIndex}
-                  to={{ pathname: "/detail", state: { item: pItem } }}
-                >
-                  <div className={styles.item}>
-                    <img src={pItem.url} />
-                    <div className={styles.text}>
-                      <b>{pItem.title}</b>
-                    </div>
-                    <div className={styles.text}>{formatDate(pItem.date)}</div>
+              <div className={styles.list}>
+                {data.map((pItem, pIndex) => {
+                  return <ListItem key={pIndex} item={pItem} />;
+                })}
+                {showSeeMore && (
+                  <div className={styles.buttonDiv}>
+                    <button onClick={handleSeeMore} className={styles.button}>
+                      See more
+                    </button>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      )}
-    </>
-  );
+                )}
+              </div>
+            </div>
+          </>
+        )}
+      </>
+    );
+  }
 }
 
 export default List;
