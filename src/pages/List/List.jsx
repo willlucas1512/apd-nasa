@@ -85,7 +85,6 @@ function List() {
   }, [searchResult]);
 
   useEffect(() => {
-    console.log(data);
     // Armazena os dados originais para exibir após a limpeza da pesquisa
     if (data.length === requestSize.current) {
       dataRef.current = data;

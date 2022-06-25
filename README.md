@@ -1,6 +1,6 @@
 # Astronomy Picture of the Day (Remake)
 
-## Discover the cosmos! Each day a different image or photograph of our fascinating universe is featured, along with a brief explanation written by a professional astronomer.
+## Discover the cosmos! Browse and search different images or photographs of our fascinating universe, along with a brief explanation written by a professional astronomer.
 
 ### Production build avaliable in [Astronomy Picture of the Day](https://apd-nasa.vercel.app)
 
