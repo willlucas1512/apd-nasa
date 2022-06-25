@@ -4,7 +4,7 @@ import Loading from "../../components/Loading";
 import Searchbox from "../../components/Searchbox";
 import ErrorFeedback from "../../components/ErrorFeedback";
 import { handleNameSearch } from "../../utils/search";
-import { isBefore } from "../../utils/date";
+import { isBefore, formatDate } from "../../utils/date";
 import styles from "./List.module.css";
 
 function List() {
@@ -70,6 +70,15 @@ function List() {
         ? `&date=${pParams?.date}`
         : `&count=${requestSize.current}`;
       const rResponse = await fetch(process.env.REACT_APP_API_URL + xParams);
+      if (!rResponse.ok) {
+        setError(
+          `This is an HTTP error: The status is ${rResponse.status}. ${
+            rResponse.status === 404 &&
+            `Image from ${formatDate(pParams.date)} not found`
+          }`
+        );
+        return;
+      }
       let xJsonData = await rResponse.json();
       const xData = xHasDate ? [xJsonData] : xJsonData;
       pParams?.append ? setData([...data, ...xData]) : setData(xData);
